@@ -3,6 +3,9 @@ spring:
   init:
     mode: always
   datasource:
-    url: jdbc:postgresql://localhost:5433/jira-test
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
     username: jira
     password: JiraRush
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect

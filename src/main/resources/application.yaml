@@ -28,8 +28,8 @@ spring:
         # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
         jdbc.batch_size: 20
 
-  liquibase:
-    changeLog: "classpath:db/changelog.sql"
+#  liquibase:
+#    changeLog: "classpath:db/changelog.sql"
 
   # Jackson Fields Serialization
   jackson:

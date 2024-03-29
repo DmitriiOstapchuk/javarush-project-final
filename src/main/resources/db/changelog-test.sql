@@ -35,7 +35,7 @@ DROP
 
 create table PROJECT
 (
-    ID BIGINT AUTO_INCREMENT primary key,
+    ID bigint primary key auto_increment,
     CODE        varchar(32)   not null
         constraint UK_PROJECT_CODE unique,
     TITLE       varchar(1024) not null,
@@ -49,7 +49,7 @@ create table PROJECT
 
 create table MAIL_CASE
 (
-    ID BIGINT AUTO_INCREMENT primary key,
+    ID bigint primary key,
     EMAIL     varchar(255) not null,
     NAME      varchar(255) not null,
     DATE_TIME timestamp    not null,
@@ -59,7 +59,7 @@ create table MAIL_CASE
 
 create table SPRINT
 (
-    ID BIGINT AUTO_INCREMENT primary key,
+    ID bigint primary key auto_increment,
     STATUS_CODE varchar(32)   not null,
     STARTPOINT  timestamp,
     ENDPOINT    timestamp,
@@ -70,7 +70,7 @@ create table SPRINT
 
 create table REFERENCE
 (
-    ID BIGINT AUTO_INCREMENT primary key,
+    ID bigint primary key auto_increment,
     CODE       varchar(32)   not null,
     REF_TYPE   smallint      not null,
     ENDPOINT   timestamp,
@@ -82,7 +82,7 @@ create table REFERENCE
 
 create table USERS
 (
-    ID BIGINT AUTO_INCREMENT primary key,
+    ID bigint primary key auto_increment,
     DISPLAY_NAME varchar(32)  not null
         constraint UK_USERS_DISPLAY_NAME unique,
     EMAIL        varchar(128) not null
@@ -106,7 +106,7 @@ create table PROFILE
 
 create table CONTACT
 (
-    ID  bigint,
+    ID  bigint not null,
     CODE  varchar(32) not null,
     RESULT varchar(256) not null,
     primary key (ID, CODE),
@@ -115,7 +115,7 @@ create table CONTACT
 
 create table TASK
 (
-    ID BIGINT AUTO_INCREMENT primary key,
+    ID bigint primary key auto_increment,
     TITLE         varchar(1024) not null,
     DESCRIPTION   varchar(4096) not null,
     TYPE_CODE     varchar(32)   not null,
@@ -135,7 +135,7 @@ create table TASK
 
 create table ACTIVITY
 (
-    ID BIGINT AUTO_INCREMENT primary key,
+    ID bigint primary key auto_increment,
     AUTHOR_ID     bigint not null,
     TASK_ID       bigint not null,
     UPDATED       timestamp,
@@ -161,7 +161,7 @@ create table TASK_TAG
 
 create table USER_BELONG
 (
-    ID BIGINT AUTO_INCREMENT primary key,
+    ID bigint primary key auto_increment,
     OBJECT_ID      bigint      not null,
     OBJECT_TYPE    smallint    not null,
     USER_ID        bigint      not null,
@@ -175,7 +175,7 @@ create index IX_USER_BELONG_USER_ID on USER_BELONG (USER_ID);
 
 create table ATTACHMENT
 (
-    ID BIGINT AUTO_INCREMENT primary key,
+    ID bigint primary key,
     NAME        varchar(128)  not null,
     FILE_LINK   varchar(2048) not null,
     OBJECT_ID   bigint        not null,
@@ -250,18 +250,19 @@ values ('assigned', 'Assigned', 6, '1'),
 --changeset gkislin:change_backtracking_tables
 
 
-alter table SPRINT
-    alter column CODE set not null;
+alter table SPRINT alter COLUMN TITLE rename to CODE;
+alter table SPRINT alter column CODE set data type varchar(32);
+alter table SPRINT alter column CODE set not null;
 create unique index UK_SPRINT_PROJECT_CODE on SPRINT (PROJECT_ID, CODE);
 
 ALTER TABLE TASK
-DROP COLUMN DESCRIPTION;
+    DROP COLUMN DESCRIPTION;
 ALTER TABLE TASK
-DROP COLUMN PRIORITY_CODE;
+    DROP COLUMN PRIORITY_CODE;
 ALTER TABLE TASK
-DROP COLUMN ESTIMATE;
+    DROP COLUMN ESTIMATE;
 ALTER TABLE TASK
-DROP COLUMN UPDATED;
+    DROP COLUMN UPDATED;
 
 --changeset ishlyakhtenkov:change_task_status_reference
 
@@ -326,6 +327,9 @@ values ('todo', 'ToDo', 3, 'in_progress,canceled|'),
 --changeset ishlyakhtenkov:change_UK_USER_BELONG
 
 drop index UK_USER_BELONG;
-ALTER TABLE USER_BELONG ADD COLUMN ENDPOINT_IS_NULL BOOLEAN AS (CASE WHEN ENDPOINT IS NULL THEN TRUE ELSE FALSE END);
-ALTER TABLE USER_BELONG ADD CONSTRAINT UK_USER_BELONG_CONDITIONAL UNIQUE (OBJECT_ID, OBJECT_TYPE, USER_ID, USER_TYPE_CODE, ENDPOINT_IS_NULL);
--- create unique index UK_USER_BELONG on USER_BELONG (OBJECT_ID, OBJECT_TYPE, USER_ID, USER_TYPE_CODE) where ENDPOINT is null;
+CREATE UNIQUE INDEX IF NOT EXISTS UK_USER_BELONG ON USER_BELONG (OBJECT_ID, OBJECT_TYPE, USER_ID, USER_TYPE_CODE, ENDPOINT);
+CREATE SEQUENCE ACTIVITY_ID_SEQ;
+CREATE sequence TASK_ID_SEQ;
+CREATE sequence SPRINT_ID_SEQ;
+CREATE sequence PROJECT_ID_SEQ;
+CREATE sequence USERS_ID_SEQ;

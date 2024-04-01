@@ -8,8 +8,6 @@ app:
     max-pool-size: 100
 
 spring:
-  config:
-    import: classpath:secret-info.properties
   init:
     mode: never
   jpa:
@@ -27,6 +25,10 @@ spring:
         default_batch_fetch_size: 20
         # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
         jdbc.batch_size: 20
+  datasource:
+    url: "#{systemEnvironment['DATASOURCE_URL']}"
+    username: "#{systemEnvironment['DATASOURCE_USERNAME']}"
+    password: "#{systemEnvironment['DATASOURCE_PASSWORD']}"
 
   liquibase:
     changeLog: "classpath:db/changelog.sql"
@@ -44,10 +46,50 @@ spring:
     cache-names: users
     caffeine.spec: maximumSize=10000,expireAfterAccess=5m
 
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: "#{systemEnvironment['GITHUB_CLIENT-ID']}"
+            client-secret: "#{systemEnvironment['GITHUB_CLIENT-SECRET']}"
+            scope:
+              - email
+          google:
+            client-id: "#{systemEnvironment['GOOGLE_CLIENT-ID']}"
+            client-secret: "#{systemEnvironment['GOOGLE_CLIENT-SECRET']}"
+            scope:
+              - email
+              - profile
+          gitlab:
+            client-id: "#{systemEnvironment['GITLAB_CLIENT-ID']}"
+            client-secret: "#{systemEnvironment['GITLAB_CLIENT-SECRET']}"
+            client-name: "#{systemEnvironment['GITLAB_CLIENT-NAME']}"
+            redirect-uri: "#{systemEnvironment['GITLAB_REDIRECT-URI']}"
+            authorization-grant-type: "#{systemEnvironment['GITLAB_AUTHORIZATION-GRANT-TYPE']}"
+            scope: read_user
+        provider:
+          gitlab:
+            authorization-uri: "#{systemEnvironment['GITLAB_AUTHORIZATION-URI']}"
+            token-uri: "#{systemEnvironment['GITLAB_TOKEN-URI']}"
+            user-info-uri: "#{systemEnvironment['GITLAB_USER-INFO-URI']}"
+            user-name-attribute: email
+
   sql:
     init:
       mode: always
 
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+    host: "#{systemEnvironment['MAIL_HOST']}"
+    username: "#{systemEnvironment['MAIL_USERNAME']}"
+    password: "#{systemEnvironment['MAIL_PASSWORD']}"
+    port: 587
   thymeleaf.check-template-location: false
 
   mvc.throw-exception-if-no-handler-found: true

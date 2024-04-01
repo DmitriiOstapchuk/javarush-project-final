@@ -70,6 +70,69 @@ class ProfileRestControllerTest extends AbstractControllerTest {
 
         Profile dbProfileAfter = profileRepository.getExisted(user_id);
         PROFILE_MATCHER.assertMatch(dbProfileAfter, updated);
+    }
 
+
+    @Test
+    @WithUserDetails(value = GUEST_MAIL)
+    void addNew() throws Exception {
+        long user_id = 3;
+        Profile newProfile = getNew(user_id);
+        ProfileTo newProfileTo = getNewTo();
+        newProfileTo.setId(user_id);
+        perform(MockMvcRequestBuilders.put(REST_URL_PROFILE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(writeValue(newProfileTo)))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+        Profile dbProfileAfter = profileRepository.getExisted(user_id);
+        PROFILE_MATCHER.assertMatch(dbProfileAfter, newProfile);
+    }
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void updateInvalid() throws Exception {
+        long user_id = 1;
+        Profile existingProfile = profileRepository.getExisted(user_id);
+        ProfileTo invalidProfileTo = getInvalidTo();
+        invalidProfileTo.setId(user_id);
+        perform(MockMvcRequestBuilders.put(REST_URL_PROFILE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(writeValue(invalidProfileTo)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+
+        Profile dbProfileAfter = profileRepository.getExisted(user_id);
+        PROFILE_MATCHER.assertMatch(dbProfileAfter, existingProfile);
+    }
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void updateWithUnknownNotification() throws Exception {
+        long user_id = 1;
+        Profile existingProfile = profileRepository.getExisted(user_id);
+        ProfileTo withUnknownNotificationProfileTo = getWithUnknownNotificationTo();
+        withUnknownNotificationProfileTo.setId(user_id);
+        perform(MockMvcRequestBuilders.put(REST_URL_PROFILE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(writeValue(withUnknownNotificationProfileTo)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+
+        Profile dbProfileAfter = profileRepository.getExisted(user_id);
+        PROFILE_MATCHER.assertMatch(dbProfileAfter, existingProfile);
+    }
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void updateWithUnknownContact() throws Exception {
+        long user_id = 1;
+        ProfileTo withUnknownContactProfileTo = getWithUnknownContactTo();
+        withUnknownContactProfileTo.setId(user_id);
+        perform(MockMvcRequestBuilders.put(REST_URL_PROFILE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(writeValue(withUnknownContactProfileTo)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
     }
 }

@@ -27,8 +27,6 @@ class ProfileRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL_PROFILE = ProfileRestController.REST_URL;
     @Autowired
     private ProfileRepository profileRepository;
-    @Autowired
-    private ProfileMapper profileMapper;
 
     @Test
     @WithUserDetails(value = USER_MAIL)
@@ -70,6 +68,18 @@ class ProfileRestControllerTest extends AbstractControllerTest {
 
         Profile dbProfileAfter = profileRepository.getExisted(user_id);
         PROFILE_MATCHER.assertMatch(dbProfileAfter, updated);
+    }
+
+    @Test
+    void updateUnauthorized() throws Exception {
+        long user_id = 1;
+        ProfileTo updatedUnauthTo = getUpdatedTo();
+        updatedUnauthTo.setId(user_id);
+        perform(MockMvcRequestBuilders.put(REST_URL_PROFILE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(writeValue(updatedUnauthTo)))
+                .andDo(print())
+                .andExpect(status().isUnauthorized());
     }
 
 
@@ -127,6 +137,7 @@ class ProfileRestControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = USER_MAIL)
     void updateWithUnknownContact() throws Exception {
         long user_id = 1;
+        Profile existingProfile = profileRepository.getExisted(user_id);
         ProfileTo withUnknownContactProfileTo = getWithUnknownContactTo();
         withUnknownContactProfileTo.setId(user_id);
         perform(MockMvcRequestBuilders.put(REST_URL_PROFILE)
@@ -134,5 +145,25 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .content(writeValue(withUnknownContactProfileTo)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
+
+        Profile dbProfileAfter = profileRepository.getExisted(user_id);
+        PROFILE_MATCHER.assertMatch(dbProfileAfter, existingProfile);
+    }
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void updateWithContactHtmlUnsafe() throws Exception {
+        long user_id = 1;
+        Profile existingProfile = profileRepository.getExisted(user_id);
+        ProfileTo withContactHtmlUnsafeProfileTo = getWithContactHtmlUnsafeTo();
+        withContactHtmlUnsafeProfileTo.setId(user_id);
+        perform(MockMvcRequestBuilders.put(REST_URL_PROFILE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(writeValue(withContactHtmlUnsafeProfileTo)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+
+        Profile dbProfileAfter = profileRepository.getExisted(user_id);
+        PROFILE_MATCHER.assertMatch(dbProfileAfter, existingProfile);
     }
 }

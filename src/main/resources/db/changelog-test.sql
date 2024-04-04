@@ -335,3 +335,9 @@ CREATE sequence TASK_ID_SEQ;
 CREATE sequence SPRINT_ID_SEQ;
 CREATE sequence PROJECT_ID_SEQ;
 CREATE sequence USERS_ID_SEQ;
+
+
+--changeset dmitriiostapchuk:change_REFERENCE
+delete
+from REFERENCE
+where CODE = 'vk';

@@ -10,6 +10,8 @@ app:
 spring:
   init:
     mode: never
+  config:
+    import: classpath:/secret-info.properties
   jpa:
     show-sql: true
     open-in-view: false
@@ -26,9 +28,9 @@ spring:
         # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
         jdbc.batch_size: 20
   datasource:
-    url: "#{systemEnvironment['DATASOURCE_URL']}"
-    username: "#{systemEnvironment['DATASOURCE_USERNAME']}"
-    password: "#{systemEnvironment['DATASOURCE_PASSWORD']}"
+    url: "${DATASOURCE_URL}"
+    username: "${DATASOURCE_USERNAME}"
+    password: "${DATASOURCE_PASSWORD}"
 
   liquibase:
     changeLog: "classpath:db/changelog.sql"
@@ -51,28 +53,28 @@ spring:
       client:
         registration:
           github:
-            client-id: "#{systemEnvironment['GITHUB_CLIENT-ID']}"
-            client-secret: "#{systemEnvironment['GITHUB_CLIENT-SECRET']}"
+            client-id: "${GITHUB_CLIENT-ID}"
+            client-secret: "${GITHUB_CLIENT-SECRET}"
             scope:
               - email
           google:
-            client-id: "#{systemEnvironment['GOOGLE_CLIENT-ID']}"
-            client-secret: "#{systemEnvironment['GOOGLE_CLIENT-SECRET']}"
+            client-id: "${GOOGLE_CLIENT-ID}"
+            client-secret: "${GOOGLE_CLIENT-SECRET}"
             scope:
               - email
               - profile
           gitlab:
-            client-id: "#{systemEnvironment['GITLAB_CLIENT-ID']}"
-            client-secret: "#{systemEnvironment['GITLAB_CLIENT-SECRET']}"
-            client-name: "#{systemEnvironment['GITLAB_CLIENT-NAME']}"
-            redirect-uri: "#{systemEnvironment['GITLAB_REDIRECT-URI']}"
-            authorization-grant-type: "#{systemEnvironment['GITLAB_AUTHORIZATION-GRANT-TYPE']}"
+            client-id: "${GITLAB_CLIENT-ID}"
+            client-secret: "${GITLAB_CLIENT-SECRET}"
+            client-name: "${GITLAB_CLIENT-NAME}"
+            redirect-uri: "${GITLAB_REDIRECT-URI}"
+            authorization-grant-type: "${GITLAB_AUTHORIZATION-GRANT-TYPE}"
             scope: read_user
         provider:
           gitlab:
-            authorization-uri: "#{systemEnvironment['GITLAB_AUTHORIZATION-URI']}"
-            token-uri: "#{systemEnvironment['GITLAB_TOKEN-URI']}"
-            user-info-uri: "#{systemEnvironment['GITLAB_USER-INFO-URI']}"
+            authorization-uri: "${GITLAB_AUTHORIZATION-URI}"
+            token-uri: "${GITLAB_TOKEN-URI}"
+            user-info-uri: "${GITLAB_USER-INFO-URI}"
             user-name-attribute: email
 
   sql:
@@ -86,9 +88,9 @@ spring:
           starttls:
             enable: true
           auth: true
-    host: "#{systemEnvironment['MAIL_HOST']}"
-    username: "#{systemEnvironment['MAIL_USERNAME']}"
-    password: "#{systemEnvironment['MAIL_PASSWORD']}"
+    host: "${MAIL_HOST}"
+    username: "${MAIL_USERNAME}"
+    password: "${MAIL_PASSWORD}"
     port: 587
   thymeleaf.check-template-location: false
 

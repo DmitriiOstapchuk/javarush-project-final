@@ -323,6 +323,6 @@ values (6, 1, '2023-05-15 09:05:10', null, 'Data', null, 3, 'epic', 'in_progress
        (11, 118, '2023-05-16 10:05:10', null, 'UI tab of tasks', null, 4, 'task', 'in_progress', 'normal'),
        (5, 118, '2023-05-16 11:10:10', null, 'UI tab of tasks', null, null, null, null, 'high'),
        (11, 118, '2023-05-16 12:30:10', null, 'UI tab of tasks', null, 2, null, null, null),
-       (5, 94, now(), null, 'Drawing in trees', null, 4, 'task', 'in progress', 'low'), ---task 94---
-       (5, 94, now() + random() * interval '2 days', null, 'Drawing in trees', null, null, null, 'ready for review', null),
-       (5, 94, now() + interval '2 days' + random() * interval '120 minutes', null, 'Drawing in trees', null, null, null, 'done', null)
+       (5, 89, now(), null, 'Drawing in trees', null, 4, 'task', 'in progress', 'low'), ---task 94---
+       (5, 89, now() + random() * interval '2 days', null, 'Drawing in trees', null, null, null, 'ready for review', null),
+       (5, 89, now() + interval '2 days' + random() * interval '120 minutes', null, 'Drawing in trees', null, null, null, 'done', null)

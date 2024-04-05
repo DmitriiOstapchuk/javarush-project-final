@@ -10,10 +10,8 @@ app:
 spring:
   init:
     mode: never
-
   config:
-    import: classpath:secret-info.properties
-
+    import: classpath:/secret-info.properties
   jpa:
     show-sql: true
     open-in-view: false

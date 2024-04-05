@@ -37,4 +37,5 @@ public interface TaskRepository extends BaseRepository<Task> {
             WHERE id IN (SELECT child FROM task_with_subtasks)
             """, nativeQuery = true)
     void setTaskAndSubTasksSprint(long taskId, Long sprintId);
+
 }

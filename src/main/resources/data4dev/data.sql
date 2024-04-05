@@ -54,8 +54,7 @@ values (1, 'skype', 'userSkype'),
        (1, 'mobile', '+01234567890'),
        (1, 'website', 'user.com'),
        (2, 'github', 'adminGitHub'),
-       (2, 'tg', 'adminTg'),
-       (2, 'vk', 'adminVk');
+       (2, 'tg', 'adminTg');
 
 delete
 from ATTACHMENT;
@@ -323,5 +322,10 @@ values (6, 1, '2023-05-15 09:05:10', null, 'Data', null, 3, 'epic', 'in_progress
        (6, 1, '2023-05-15 14:05:10', null, 'Data', null, 4, null, null, null), ---task 118----
        (11, 118, '2023-05-16 10:05:10', null, 'UI tab of tasks', null, 4, 'task', 'in_progress', 'normal'),
        (5, 118, '2023-05-16 11:10:10', null, 'UI tab of tasks', null, null, null, null, 'high'),
-       (11, 118, '2023-05-16 12:30:10', null, 'UI tab of tasks', null, 2, null, null, null);
-
+       (11, 118, '2023-05-16 12:30:10', null, 'UI tab of tasks', null, 2, null, null, null),
+       (5, 89, now(), null, 'Drawing in trees', null, 4, 'task', 'in_progress', 'low'), ---task 94---
+       (5, 89, now() + random() * interval '2 days', null, 'Drawing in trees', null, null, null, 'ready_for_review', null),
+       (5, 89, now() + interval '2 days' + random() * interval '120 minutes', null, 'Drawing in trees', null, null, null, 'done', null),
+       (5, 89, now() + interval '2 days' + interval '120 minutes' + random() * interval '5 minutes', null, 'Drawing in trees', null, null, null, 'in_progress', null),
+       (5, 89, now() + interval '2 days' + random() * interval '1 day', null, 'Drawing in trees', null, null, null, 'ready_for_review', null),
+       (5, 89, now() + interval '3 days' + random() * interval '1 day', null, 'Drawing in trees', null, null, null, 'done', null)

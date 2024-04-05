@@ -97,13 +97,13 @@ public class ActivityService {
         return calculateTime(task.id(), activities, READY_FOR_REVIEW_STATUS_CODE, IN_TESTING_MESSAGE);
     }
 
-    public Long calculateTime (Long taskId, List<Activity> activities, String statusCodeStart, String infoMessage) {
+    public long calculateTime (Long taskId, List<Activity> activities, String statusCodeStart, String infoMessage) {
         LocalDateTime startTime = null;
         LocalDateTime endTime = null;
-        Long duration = null;
+        long duration = 0;
         if (activities.get(activities.size()-1).getStatusCode().equals(statusCodeStart)) {
             log.info(infoMessage, taskId);
-            return null;
+            return 0;
         }
         for (Activity activity: activities) {
             if (activity.getStatusCode().equals(statusCodeStart)) {

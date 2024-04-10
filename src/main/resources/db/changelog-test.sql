@@ -341,5 +341,5 @@ CREATE sequence USERS_ID_SEQ;
 delete
 from REFERENCE
 where CODE = 'vk';
-alter table TASK_TAG
-    add column ID bigserial primary key;
+-- alter table TASK_TAG
+--     add column ID bigint primary key auto_increment;

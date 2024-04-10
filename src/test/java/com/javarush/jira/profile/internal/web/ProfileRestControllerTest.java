@@ -14,10 +14,8 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.javarush.jira.common.util.JsonUtil.writeValue;
-import static com.javarush.jira.login.internal.web.UserController.REST_URL;
 import static com.javarush.jira.login.internal.web.UserTestData.*;
 import static com.javarush.jira.profile.internal.web.ProfileTestData.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

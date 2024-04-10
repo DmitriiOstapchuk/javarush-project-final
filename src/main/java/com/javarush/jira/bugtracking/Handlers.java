@@ -12,18 +12,9 @@ import com.javarush.jira.bugtracking.sprint.Sprint;
 import com.javarush.jira.bugtracking.sprint.SprintMapper;
 import com.javarush.jira.bugtracking.sprint.SprintRepository;
 import com.javarush.jira.bugtracking.sprint.to.SprintTo;
-import com.javarush.jira.bugtracking.task.Activity;
-import com.javarush.jira.bugtracking.task.ActivityRepository;
-import com.javarush.jira.bugtracking.task.Task;
-import com.javarush.jira.bugtracking.task.TaskRepository;
-import com.javarush.jira.bugtracking.task.mapper.ActivityMapper;
-import com.javarush.jira.bugtracking.task.mapper.TaskExtMapper;
-import com.javarush.jira.bugtracking.task.mapper.TaskFullMapper;
-import com.javarush.jira.bugtracking.task.mapper.TaskMapper;
-import com.javarush.jira.bugtracking.task.to.ActivityTo;
-import com.javarush.jira.bugtracking.task.to.TaskTo;
-import com.javarush.jira.bugtracking.task.to.TaskToExt;
-import com.javarush.jira.bugtracking.task.to.TaskToFull;
+import com.javarush.jira.bugtracking.task.*;
+import com.javarush.jira.bugtracking.task.mapper.*;
+import com.javarush.jira.bugtracking.task.to.*;
 import com.javarush.jira.common.BaseHandler;
 import com.javarush.jira.common.BaseMapper;
 import com.javarush.jira.common.BaseRepository;
@@ -83,6 +74,13 @@ public class Handlers {
     @Component
     public static class ActivityHandler extends BaseHandler<Activity, ActivityTo, ActivityRepository, ActivityMapper> {
         public ActivityHandler(ActivityRepository repository, ActivityMapper mapper) {
+            super(repository, mapper);
+        }
+    }
+
+    @Component
+    public static class TagHandler extends BaseHandler<Tag, TagTo, TagRepository, TagMapper> {
+        public TagHandler(TagRepository repository, TagMapper mapper) {
             super(repository, mapper);
         }
     }

@@ -1,5 +1,6 @@
 package com.javarush.jira.bugtracking.task;
 
+
 import com.javarush.jira.common.HasId;
 import com.javarush.jira.common.model.BaseEntity;
 import com.javarush.jira.common.util.validation.NoHtml;

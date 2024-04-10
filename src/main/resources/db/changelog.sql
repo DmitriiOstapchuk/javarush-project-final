@@ -335,5 +335,5 @@ create unique index UK_USER_BELONG on USER_BELONG (OBJECT_ID, OBJECT_TYPE, USER_
 delete
 from REFERENCE
 where CODE = 'vk';
--- alter table TASK_TAG
--- add column ID bigserial primary key;
+alter table TASK_TAG
+add column ID bigserial primary key;

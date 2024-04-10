@@ -328,4 +328,11 @@ values (6, 1, '2023-05-15 09:05:10', null, 'Data', null, 3, 'epic', 'in_progress
        (5, 89, now() + interval '2 days' + random() * interval '120 minutes', null, 'Drawing in trees', null, null, null, 'done', null),
        (5, 89, now() + interval '2 days' + interval '120 minutes' + random() * interval '5 minutes', null, 'Drawing in trees', null, null, null, 'in_progress', null),
        (5, 89, now() + interval '2 days' + random() * interval '1 day', null, 'Drawing in trees', null, null, null, 'ready_for_review', null),
-       (5, 89, now() + interval '3 days' + random() * interval '1 day', null, 'Drawing in trees', null, null, null, 'done', null)
+       (5, 89, now() + interval '3 days' + random() * interval '1 day', null, 'Drawing in trees', null, null, null, 'done', null);
+
+INSERT INTO TASK_TAG(TASK_ID, TAG)
+values (92, 'Bug'),
+       (103, 'Bug'),
+       (103, 'HTML'),
+       (104, 'HTML'),
+       (104, 'Development')

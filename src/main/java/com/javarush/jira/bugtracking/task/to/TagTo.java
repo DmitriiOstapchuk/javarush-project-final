@@ -15,5 +15,5 @@ public class TagTo  extends BaseTo {
     @NoHtml
     @Size(max = 4096)
     @NotNull
-    String comment;
+    String tag;
 }

@@ -61,8 +61,16 @@ public class Task extends TitleEntity implements HasCode {
     @Column(name = "sprint_id")
     private Long sprintId;
 
+//    @CollectionTable(name = "task_tag",
+//            joinColumns = @JoinColumn(name = "task_id"),
+//            uniqueConstraints = @UniqueConstraint(columnNames = {"task_id", "tag"}, name = "uk_task_tag"))
+//    @Column(name = "tag")
+//    @ElementCollection(fetch = FetchType.LAZY)
+//    @JoinColumn()
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+//    private Set<@Size(min = 2, max = 32) String> tags = Set.of();
     @OneToMany(mappedBy = "taskId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<@Size(min = 2, max = 32) Tag> tags = Set.of();
+    private Set<Tag> tags;
 
     //  history of comments and task fields changing
     @OneToMany(mappedBy = "taskId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

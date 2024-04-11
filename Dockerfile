@@ -8,6 +8,9 @@ EXPOSE 8080
 
 RUN mkdir /opt/app
 
+COPY ./resources /opt/app
 COPY ./target/jira-1.0.jar /opt/app
+
+VOLUME ["/opt/app/resources"]
 
 ENTRYPOINT ["java", "-jar", "/opt/app/jira-1.0.jar", "--spring.datasource.url=jdbc:postgresql://postgres-db:5432/jira"]

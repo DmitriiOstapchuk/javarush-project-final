@@ -3,7 +3,7 @@ services:
   postgres-db:
     image: postgres:latest
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
       - ./pgdata:/var/lib/postgresql/data
     environment:
@@ -17,23 +17,26 @@ services:
     image: nginx:latest
     restart: always
     ports:
-    - 80:80
+    - "80:80"
     volumes:
       - ./config/nginx.conf:/etc/nginx/conf.d/nginx.conf
+    depends_on:
+      - app
 
-  JiraRush:
+  app:
+    container_name: JiraRush
     image: jira:1.0
     build:
       context: .
       dockerfile: Dockerfile
     restart: always
     ports:
-      - 7777:8080
+      - "7777:8080"
     volumes:
+      - ./resources:/opt/app/resources
       - ./target/jira-1.0.jar:/opt/app/jira-1.0.jar:ro
     depends_on:
       - postgres-db
-      - nginx
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/jira
       - POSTGRES_USER=jira

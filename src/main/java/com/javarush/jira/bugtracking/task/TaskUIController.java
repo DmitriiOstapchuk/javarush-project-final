@@ -4,6 +4,7 @@ import com.javarush.jira.bugtracking.Handlers;
 import com.javarush.jira.bugtracking.ObjectType;
 import com.javarush.jira.bugtracking.attachment.AttachmentRepository;
 import com.javarush.jira.bugtracking.task.to.ActivityTo;
+import com.javarush.jira.bugtracking.task.to.TagTo;
 import com.javarush.jira.bugtracking.task.to.TaskToExt;
 import com.javarush.jira.bugtracking.task.to.TaskToFull;
 import com.javarush.jira.ref.RefTo;
@@ -33,6 +34,7 @@ public class TaskUIController {
     private final Handlers.ActivityHandler activityHandler;
     private final Handlers.AttachmentHandler attachmentHandler;
     private final Handlers.TaskHandler taskHandler;
+    private final Handlers.TagHandler tagHandler;
 
     @GetMapping("/{id}")
     public String get(@PathVariable long id, @RequestParam(required = false) boolean fragment, Model model) {
@@ -85,8 +87,13 @@ public class TaskUIController {
                     activityHandler.getMapper().toToList(activityHandler.getRepository().findAllByTaskIdOrderByUpdatedDesc(taskTo.getId()));
             List<ActivityTo> comments = getComments(activityTos);
             activityTos.removeAll(comments);
+            List<TagTo> tagTos = taskTo.isNew() ? Collections.emptyList() :
+                    tagHandler.getMapper().toToList(tagHandler.getRepository().findAllByTaskId(taskTo.getId()));
+            List<TagTo> tags = getTags(tagTos);
+            tagTos.removeAll(tags);
             model.addAttribute("comments", comments);
             model.addAttribute("activities", activityTos);
+            model.addAttribute("tags", tagTos);
             if (!taskTo.isNew()) {
                 model.addAttribute("attachs", attachmentHandler.getRepository().getAllForObject(taskTo.id(), ObjectType.TASK));
             }
@@ -107,10 +114,13 @@ public class TaskUIController {
     private void addTaskInfo(Model model, TaskToFull taskTo) {
         List<ActivityTo> comments = getComments(taskTo.getActivityTos());
         taskTo.getActivityTos().removeAll(comments);
+        List<TagTo> tags = getTags(taskTo.getTagTos());
+        taskTo.getTagTos().removeAll(tags);
         model.addAttribute("task", taskTo);
         model.addAttribute("comments", comments);
         model.addAttribute("attachs", attachmentHandler.getRepository().getAllForObject(taskTo.id(), ObjectType.TASK));
         model.addAttribute("activities", taskTo.getActivityTos());
+        model.addAttribute("tags", taskTo.getTagTos());
     }
 
     private void addRefs(Model model, String currentStatus) {
@@ -143,6 +153,12 @@ public class TaskUIController {
     private List<ActivityTo> getComments(List<ActivityTo> activityTos) {
         return activityTos.stream()
                 .filter(activity -> activity.getComment() != null)
+                .toList();
+    }
+
+    private List<TagTo> getTags(List<TagTo> tagTos) {
+        return tagTos.stream()
+                .filter(tag -> tag.getTag() != null)
                 .toList();
     }
 }

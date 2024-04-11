@@ -337,7 +337,9 @@ CREATE sequence PROJECT_ID_SEQ;
 CREATE sequence USERS_ID_SEQ;
 
 
---changeset dmitriiostapchuk:change_REFERENCE
+--changeset dmitriiostapchuk:change_REFERENCE_TASK_TAG
 delete
 from REFERENCE
 where CODE = 'vk';
+-- alter table TASK_TAG
+--     add column ID bigint primary key auto_increment;

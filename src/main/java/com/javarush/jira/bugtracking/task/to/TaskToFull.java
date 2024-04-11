@@ -14,14 +14,17 @@ public class TaskToFull extends TaskToExt {
     CodeTo sprint;
     @Setter
     List<ActivityTo> activityTos;
+    @Setter
+    List<TagTo> tagTos;
 
     public TaskToFull(Long id, String code, String title, String description, String typeCode, String statusCode, String priorityCode,
-                      LocalDateTime updated, Integer estimate, CodeTo parent, CodeTo project, CodeTo sprint, List<ActivityTo> activityTos) {
+                      LocalDateTime updated, Integer estimate, CodeTo parent, CodeTo project, CodeTo sprint, List<ActivityTo> activityTos, List<TagTo> tagTos) {
         super(id, code, title, description, typeCode, statusCode, priorityCode, updated, estimate,
                 parent == null ? null : parent.getId(), project.getId(), sprint == null ? null : sprint.getId());
         this.parent = parent;
         this.project = project;
         this.sprint = sprint;
         this.activityTos = activityTos;
+        this.tagTos = tagTos;
     }
 }

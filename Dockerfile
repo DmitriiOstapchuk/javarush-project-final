@@ -8,7 +8,6 @@ EXPOSE 8080
 
 RUN mkdir /opt/app
 
-COPY ./resources /opt/app/resources
 COPY ./target/jira-1.0.jar /opt/app
 
 VOLUME ["/opt/app/resources"]

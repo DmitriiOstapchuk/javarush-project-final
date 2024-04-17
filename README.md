@@ -1,13 +1,19 @@
 ## [REST API](http://localhost:8080/doc)
 
-## Концепция:
+Как запустить приложение:
 
-- Spring Modulith
-    - [Spring Modulith: достигли ли мы зрелости модульности](https://habr.com/ru/post/701984/)
-    - [Introducing Spring Modulith](https://spring.io/blog/2022/10/21/introducing-spring-modulith)
-    - [Spring Modulith - Reference documentation](https://docs.spring.io/spring-modulith/docs/current-SNAPSHOT/reference/html/)
+1. Клонировать себе на машину проект.
 
-```
+2. Запустить локально сервер БД (PostgreSQL). Рекомендую это делать через docker.
+
+3. Создать 1 контейнер с БД для запуска приложения (профиль prod). Соответствующая команда:
+
+    docker run -p 5432:5432 --name postgres-db -e POSTGRES_USER=jira -e POSTGRES_PASSWORD=JiraRush -e POSTGRES_DB=jira -e PGDATA=/var/lib/postgresql/data/pgdata -v ./pgdata:/var/lib/postgresql/data -d postgres
+
+4. Сбилдить приложение: mvn clean install
+
+5. Запустить Spring Boot приложение (JiraRushApplication) с профилем prod
+
 
 Список выполненных задач:
 
@@ -35,8 +41,4 @@
 8. Добавить подсчет времени сколько задача находилась в работе и тестировании. Написать 2 метода на уровне сервиса, которые параметром принимают задачу и возвращают затраченное время:
 
     Сколько задача находилась в работе (ready_for_review минус in_progress ).
-    Сколько задача находилась на тестировании (done минус ready_for_review).
-
-9. Написать Dockerfile для основного сервера
-
-10. Написать docker-compose файл для запуска контейнера сервера вместе с БД и nginx. 
+    Сколько задача находилась на тестировании (done минус ready_for_review). 
